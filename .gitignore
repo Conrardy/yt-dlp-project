@@ -54,3 +54,7 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Specstory folder (VS Code extension)
+.specstory/
+.specstory/** 
