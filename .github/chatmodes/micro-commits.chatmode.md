@@ -142,6 +142,7 @@ The AI agent must commit when any of these conditions are met:
 - ✅ A configuration change is made
 - ✅ 15 minutes have passed with meaningful progress
 - ✅ Before switching to a different task or file
+- ✅ A task item in todos.md is completed
 
 ### Anti-Patterns to Avoid
 The AI agent must never:
@@ -167,6 +168,69 @@ The AI agent should communicate progress using this template:
 ⏱️ **Next commit in**: ~8 minutes
 ```
 
+### Task Tracking Integration
+
+#### Todos.md Update Process
+The AI agent must update `.current/todos.md` as part of the commit workflow:
+
+1. **Before Each Development Session**:
+   - Review current todos.md to understand active tasks
+   - Identify which tasks will be worked on
+   - Plan micro-commits aligned with task items
+
+2. **During Development**:
+   - Track progress on specific todo items
+   - Mark sub-tasks as completed when functionality is working
+   - Update task status in real-time
+
+3. **Task Completion Workflow**:
+   ```bash
+   # 1. Complete the functionality
+   git add <implementation-files>
+   git commit -m "feat(config): implement default configuration class"
+   
+   # 2. Update todos.md immediately after
+   # Change: - [ ] Task description
+   # To:     - [x] Task description
+   git add .current/todos.md
+   git commit -m "docs(todos): mark configuration class task as completed"
+   ```
+
+4. **Todo Update Rules**:
+   - ✅ Mark task as `[x]` only when fully implemented and tested
+   - 🔄 Add progress notes for partial completion: `- [ ] Task (⚠️ 60% complete)`
+   - 📝 Move completed tasks to "✅ Tâches Complétées" section weekly
+   - 🆕 Add new discovered sub-tasks during implementation
+   - 🔄 Update task descriptions if scope changes during development
+
+#### Task-Commit Mapping
+Each commit should reference related todo items:
+
+```
+feat(downloader): implement basic audio download functionality
+
+- Completes: "Créer la classe AudioDownloader"
+- Progress on: "Implémenter la méthode de téléchargement avec YT-DLP"
+- Related: todos.md line 23-25
+- Refs: TODO-2.1, TODO-2.2
+```
+
+#### Progress Tracking Template
+```
+🎯 **Current Todo Section**: [Section name from todos.md]
+📋 **Active Tasks**: 
+   - [ ] Task 1 (🔄 in progress)
+   - [x] Task 2 (✅ completed this session)
+   - [ ] Task 3 (⏳ next)
+
+🔄 **Commits This Session**:
+- ✅ feat(config): add default settings - completes TODO-1.1
+- ✅ docs(todos): update task status - maintenance
+- 🔄 [Current work]: Implementing URL validation
+
+⏱️ **Next todo update**: After current function completion
+```
+
 ### Recovery Procedures
 When things go wrong:
 
@@ -174,16 +238,25 @@ When things go wrong:
    - Stash changes: `git stash`
    - Return to last working commit
    - Re-implement with smaller steps
+   - Update todos.md to reflect any scope changes
 
 2. **Test Failures**:
    - Commit current progress as WIP
    - Fix tests in separate commit
+   - Update todos.md with testing progress
    - Squash if needed
 
 3. **Merge Conflicts**:
    - Commit current work
    - Handle conflicts separately
    - Continue with planned commits
+   - Sync todos.md with merged changes
+
+4. **Task Scope Changes**:
+   - Commit current working state
+   - Update todos.md with revised task breakdown
+   - Commit todos.md changes separately
+   - Continue with updated plan
 
 ### Metrics and Success Indicators
 Track these metrics to ensure process adherence:
@@ -193,5 +266,29 @@ Track these metrics to ensure process adherence:
 - **Rollback Rate**: <5% of commits need to be reverted
 - **Review Time**: <2 minutes per commit during code review
 - **Build Success**: >95% of commits should pass CI/CD
+- **Todo Sync Rate**: todos.md updated within 2 commits of task completion
+- **Task Completion Accuracy**: <5% of marked tasks need status revision
 
-This process ensures maintainable code history, easier debugging, and more controlled development flow.
+### Todos.md Maintenance Rules
+
+#### Weekly Maintenance (Sundays)
+1. **Archive Completed Tasks**: Move all `[x]` items to "✅ Tâches Complétées" section
+2. **Review Progress**: Update task priorities based on completed work
+3. **Clean Up**: Remove outdated or irrelevant tasks
+4. **Reorganize**: Reorder tasks by current priority
+5. **Commit Changes**: `docs(todos): weekly maintenance and task reorganization`
+
+#### Daily Best Practices
+- **Morning Review**: Check todos.md before starting development
+- **End-of-Day Update**: Ensure all completed work is marked in todos.md
+- **Scope Adjustments**: Update task descriptions if implementation differs from plan
+- **New Task Discovery**: Add new sub-tasks discovered during implementation
+
+#### Task Status Conventions
+- `[ ]` - Not started
+- `[x]` - Completed and tested
+- `[~]` - In progress (use sparingly, prefer frequent commits)
+- `[!]` - Blocked or needs attention
+- `[-]` - Cancelled or obsolete
+
+This process ensures maintainable code history, easier debugging, controlled development flow, and accurate project tracking through synchronized task management.
