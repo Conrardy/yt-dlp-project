@@ -222,9 +222,11 @@ class AudioDownloader:
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
         
-        # Add handlers
-        if not self.logger.handlers:
+        # Add handlers if not already added (avoid duplicates)
+        handler_names = [type(h).__name__ for h in self.logger.handlers]
+        if 'FileHandler' not in handler_names:
             self.logger.addHandler(file_handler)
+        if 'StreamHandler' not in handler_names:
             self.logger.addHandler(console_handler)
     
     def download_audio(self, url: str, output_filename: Optional[str] = None) -> Dict[str, Any]:

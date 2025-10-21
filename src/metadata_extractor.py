@@ -139,9 +139,11 @@ class MetadataExtractor:
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
         
-        # Add handlers if not already added
-        if not self.logger.handlers:
+        # Add handlers if not already added (avoid duplicates)
+        handler_names = [type(h).__name__ for h in self.logger.handlers]
+        if 'FileHandler' not in handler_names:
             self.logger.addHandler(file_handler)
+        if 'StreamHandler' not in handler_names:
             self.logger.addHandler(console_handler)
     
     def extract_metadata(self, url: str, 
@@ -244,6 +246,7 @@ class MetadataExtractor:
             "has_description": bool(metadata.get("video_info", {}).get("description")),
             "has_tags": len(metadata.get("video_info", {}).get("tags", [])) > 0,
             "estimated_file_size": self._estimate_mp3_size(raw_info.get('duration', 0)),
+            "duration_formatted": metadata.get("video_info", {}).get("duration_formatted"),
             "metadata_version": "1.0"
         }
         
