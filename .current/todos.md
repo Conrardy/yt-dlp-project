@@ -5,19 +5,25 @@
 - [x] Configuration de l'environnement Python (venv + yt-dlp)
 - [x] Création de la structure de projet (src/, downloads/, logs/, metadata/)
 - [x] Installation des dépendances système (FFmpeg)
+- [x] Définir la classe de configuration avec les paramètres par défaut
+- [x] Gérer la qualité audio (320 kbps MP3)
+- [x] Configurer les chemins de sortie (downloads/, metadata/, logs/)
+- [x] Implémenter la gestion des formats de sortie
+- [x] Ajouter la configuration des options YT-DLP
+- [x] Créer un système de validation des paramètres
 
 ## 📋 Tâches en Cours
 
-### 1. Créer le module de configuration (`src/config.py`)
+### 1. ✅ Module de configuration (`src/config.py`) - TERMINÉ
 
-- [ ] Définir la classe de configuration avec les paramètres par défaut
-- [ ] Gérer la qualité audio (320 kbps MP3)
-- [ ] Configurer les chemins de sortie (downloads/, metadata/, logs/)
-- [ ] Implémenter la gestion des formats de sortie
-- [ ] Ajouter la configuration des options YT-DLP
-- [ ] Créer un système de validation des paramètres
+- [x] Définir la classe de configuration avec les paramètres par défaut
+- [x] Gérer la qualité audio (320 kbps MP3)
+- [x] Configurer les chemins de sortie (downloads/, metadata/, logs/)
+- [x] Implémenter la gestion des formats de sortie
+- [x] Ajouter la configuration des options YT-DLP
+- [x] Créer un système de validation des paramètres
 
-### 2. Développer le téléchargeur audio (`src/audio_downloader.py`)
+### 2. 🔄 Développer le téléchargeur audio (`src/audio_downloader.py`) - EN COURS
 
 - [ ] Créer la classe AudioDownloader
 - [ ] Implémenter la méthode de téléchargement avec YT-DLP
@@ -87,8 +93,8 @@
 
 ## 🎯 Ordre de Priorité Suggéré
 
-1. **config.py** - Base de configuration pour tous les autres modules
-2. **audio_downloader.py** - Fonctionnalité core du téléchargement
+1. ✅ **config.py** - Base de configuration pour tous les autres modules (TERMINÉ)
+2. 🔄 **audio_downloader.py** - Fonctionnalité core du téléchargement (EN COURS)
 3. **metadata_extractor.py** - Extraction des informations
 4. **main.py** - Interface utilisateur
 5. **Logging et gestion d'erreurs** - Robustesse du système
