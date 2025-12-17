@@ -58,3 +58,4 @@ Thumbs.db
 # Specstory folder (VS Code extension)
 .specstory/
 .specstory/** 
+history.db
