@@ -46,6 +46,8 @@ A comprehensive command-line tool to download high-quality audio from YouTube vi
 
 ### Basic Usage
 
+#### Command-Line Interface (CLI)
+
 ```bash
 # Download a single video
 python youtube_downloader.py download "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
@@ -59,6 +61,30 @@ python youtube_downloader.py info "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 # Show current configuration
 python youtube_downloader.py config --show
 ```
+
+#### Web Interface (FastAPI)
+
+1. **Start the web server**
+   ```bash
+   python run_server.py
+   ```
+   
+   Or using uvicorn directly:
+   ```bash
+   uvicorn src.api.app:app --reload --host 0.0.0.0 --port 8000
+   ```
+
+2. **Open your browser**
+   Navigate to `http://localhost:8000` to access the web interface.
+
+3. **Features available in the web interface:**
+   - 📺 Analyze YouTube video URLs and view metadata
+   - ⬇️ Download audio with real-time progress tracking
+   - 📊 View download history with statistics
+   - 📥 Download previously downloaded files
+   - 🎨 Modern, responsive UI
+
+The web interface provides all the functionality of the CLI in an easy-to-use graphical interface with Server-Sent Events (SSE) for real-time progress updates.
 
 ## 📖 Detailed Usage
 
@@ -126,12 +152,26 @@ yt-dlp-project/
 │   ├── main.py                   # Main CLI application
 │   ├── config.py                 # Configuration management
 │   ├── audio_downloader.py       # Audio download functionality
-│   └── metadata_extractor.py     # Metadata extraction
+│   ├── metadata_extractor.py     # Metadata extraction
+│   ├── api/                      # FastAPI web interface
+│   │   ├── __init__.py
+│   │   ├── app.py                # FastAPI application
+│   │   ├── routes.py             # API endpoints
+│   │   ├── models.py             # Pydantic schemas
+│   │   └── database.py           # SQLite database for history
+│   ├── static/                   # Static web assets
+│   │   ├── css/
+│   │   │   └── style.css         # Styles
+│   │   └── js/
+│   │       └── app.js            # Frontend JavaScript
+│   └── templates/                # HTML templates
+│       └── index.html            # Main web page
 ├── downloads/                     # Downloaded audio files
 ├── metadata/                      # Extracted metadata (JSON)
 ├── logs/                         # Application logs
 ├── .venv/                        # Python virtual environment
-├── youtube_downloader.py         # Main entry point script
+├── youtube_downloader.py         # Main entry point script (CLI)
+├── run_server.py                 # Web server entry point
 ├── test_functionality.py         # Test script
 ├── requirements.txt              # Python dependencies
 ├── README.md                     # This documentation

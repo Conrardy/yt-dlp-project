@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Audio Downloader</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 YouTube Audio Downloader</h1>
+            <p class="subtitle">Téléchargez l'audio de vos vidéos YouTube préférées</p>
+        </header>
+
+        <main>
+            <!-- URL Input Section -->
+            <section class="card" id="input-section">
+                <h2>Entrer l'URL de la vidéo</h2>
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        id="url-input" 
+                        placeholder="https://www.youtube.com/watch?v=..." 
+                        class="url-input"
+                    >
+                    <button id="analyze-btn" class="btn btn-primary">Analyser</button>
+                </div>
+                <div id="url-error" class="error-message" style="display: none;"></div>
+            </section>
+
+            <!-- Video Info Section -->
+            <section class="card" id="video-info-section" style="display: none;">
+                <h2>Informations de la vidéo</h2>
+                <div class="video-info">
+                    <div class="video-thumbnail">
+                        <img id="video-thumbnail" src="" alt="Video thumbnail" style="display: none;">
+                    </div>
+                    <div class="video-details">
+                        <h3 id="video-title"></h3>
+                        <div class="video-meta">
+                            <span id="video-uploader"></span>
+                            <span class="separator">•</span>
+                            <span id="video-duration"></span>
+                            <span class="separator" id="size-separator" style="display: none;">•</span>
+                            <span id="video-size" style="display: none;"></span>
+                        </div>
+                        <div id="video-description" class="video-description" style="display: none;"></div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button id="download-btn" class="btn btn-success">Télécharger</button>
+                    <button id="reset-btn" class="btn btn-secondary">Nouvelle URL</button>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section class="card" id="progress-section" style="display: none;">
+                <h2>Progression du téléchargement</h2>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span id="progress-percentage">0%</span>
+                        <span id="progress-speed" class="progress-speed"></span>
+                    </div>
+                    <div id="progress-message" class="progress-message"></div>
+                </div>
+                <div id="download-complete" class="download-complete" style="display: none;">
+                    <p>✅ Téléchargement terminé !</p>
+                    <a id="download-link" href="#" class="btn btn-primary" download>Télécharger le fichier</a>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section class="card" id="history-section">
+                <div class="section-header">
+                    <h2>Historique des téléchargements</h2>
+                    <button id="refresh-history-btn" class="btn btn-icon" title="Actualiser">
+                        🔄
+                    </button>
+                </div>
+                <div id="history-stats" class="history-stats"></div>
+                <div id="history-loading" class="loading" style="display: none;">Chargement...</div>
+                <div id="history-table-container">
+                    <table id="history-table" class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Titre</th>
+                                <th>Durée</th>
+                                <th>Auteur</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-tbody">
+                            <tr>
+                                <td colspan="5" class="empty-state">Aucun téléchargement pour le moment</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>YouTube Audio Downloader v1.0.0</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

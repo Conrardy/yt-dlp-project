@@ -1,0 +1,6 @@
+---
+globs: *.py
+alwaysApply: false
+---
+
+All tests should follow pattern //ArrangeToTo //Act //Assert
