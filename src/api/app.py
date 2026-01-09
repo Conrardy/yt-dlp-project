@@ -1,5 +1,29 @@
 """
 FastAPI application entry point for YouTube Audio Downloader.
+
+This module initializes and configures the FastAPI application, including:
+- CORS middleware for cross-origin requests
+- Static file serving for CSS and JavaScript
+- Jinja2 template rendering for the web interface
+- API router inclusion for REST endpoints
+- Database initialization on startup
+
+The application provides a modern web interface for downloading audio from
+YouTube videos with real-time progress tracking via Server-Sent Events (SSE).
+
+Attributes:
+    app (FastAPI): The main FastAPI application instance
+    templates (Jinja2Templates): Template renderer for HTML pages
+    logger (Logger): Application logger for debugging and monitoring
+
+Example:
+    Run the server using uvicorn:
+    
+    >>> uvicorn src.api.app:app --reload --host 0.0.0.0 --port 8000
+    
+    Or directly:
+    
+    >>> python run_server.py
 """
 
 import logging
@@ -71,7 +95,20 @@ async def root(request: Request):
 
 @app.on_event("startup")
 async def startup_event():
-    """Initialize database on startup."""
+    """
+    Initialize application resources on startup.
+    
+    This lifecycle event handler is called when the FastAPI application starts.
+    It performs the following initialization tasks:
+    
+    1. Creates and initializes the SQLite database connection
+    2. Sets up the downloads table schema if it doesn't exist
+    3. Creates necessary indexes for query performance
+    
+    Raises:
+        Exception: Logs any initialization errors but doesn't prevent startup
+                   to allow the application to handle missing database gracefully.
+    """
     try:
         from .database import get_database
         db = get_database()
@@ -83,7 +120,20 @@ async def startup_event():
 
 @app.on_event("shutdown")
 async def shutdown_event():
-    """Cleanup on shutdown."""
+    """
+    Clean up application resources on shutdown.
+    
+    This lifecycle event handler is called when the FastAPI application
+    is shutting down. It performs cleanup tasks such as:
+    
+    1. Logging the shutdown event for monitoring
+    2. Any pending database connections are automatically closed by aiosqlite
+    
+    Note:
+        Background download tasks in progress will be terminated when the
+        application shuts down. Consider implementing graceful shutdown
+        handling for long-running downloads in production environments.
+    """
     logger.info("Application shutting down")
 
 
